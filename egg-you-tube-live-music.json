@@ -1,0 +1,104 @@
+{
+    "_comment": "DO NOT EDIT: FILE GENERATED AUTOMATICALLY BY PTERODACTYL PANEL - PTERODACTYL.IO",
+    "meta": {
+        "version": "PTDL_v1",
+        "update_url": null
+    },
+    "exported_at": "2021-09-18T06:20:17+06:00",
+    "name": "YouTube Live Music",
+    "author": "shaownsilva@gmail.com",
+    "description": "Egg To Live Video 24\/7 Videos on YouTube",
+    "features": null,
+    "images": [
+        "ghcr.io\/parkervcp\/yolks:nodejs_16"
+    ],
+    "file_denylist": [],
+    "startup": "ffmpeg -stream_loop -1 -re -i \"{{VIDEO_SOURCE}}\" -thread_queue_size 512 -stream_loop -1 -re -f concat -i {{AUDIO_FILES}} -c:v libx264 -preset {{QUAL}} -r {{FPS}} -g 60 -b:v {{VBR}} -bufsize 3000k -maxrate {{VBR}} -c:a {{AUDIO_ENCODER}} -ar 44100 -b:a 128k -pix_fmt yuv420p -f flv {{YOUTUBE_URL}}\/{{YOUTUBE_KEY}}",
+    "config": {
+        "files": "{}",
+        "startup": "{\r\n    \"done\": \"Output #0\"\r\n}",
+        "logs": "{}",
+        "stop": "^C"
+    },
+    "scripts": {
+        "installation": {
+            "script": "#!\/bin\/ash\r\n\r\napt update\r\napt install ffmpeg",
+            "container": "alpine:3.4",
+            "entrypoint": "ash"
+        }
+    },
+    "variables": [
+        {
+            "name": "Video Bitrate",
+            "description": "Bitrate to exported video output",
+            "env_variable": "VBR",
+            "default_value": "1500k",
+            "user_viewable": true,
+            "user_editable": true,
+            "rules": "required|string|max:20"
+        },
+        {
+            "name": "FPS",
+            "description": "Outgoing Video FPS",
+            "env_variable": "FPS",
+            "default_value": "30",
+            "user_viewable": true,
+            "user_editable": true,
+            "rules": "required|string|max:20"
+        },
+        {
+            "name": "Quality",
+            "description": "Video Quality | Visit FFMPEG Website for more info",
+            "env_variable": "QUAL",
+            "default_value": "ultrafast",
+            "user_viewable": true,
+            "user_editable": true,
+            "rules": "required|string|max:20"
+        },
+        {
+            "name": "YouTube Live URL",
+            "description": "Live URL for ffmpeg to stream to",
+            "env_variable": "YOUTUBE_URL",
+            "default_value": "rtmp:\/\/a.rtmp.youtube.com\/live2",
+            "user_viewable": true,
+            "user_editable": true,
+            "rules": "required|string"
+        },
+        {
+            "name": "YouTube Live Secret",
+            "description": "Secret Key required to stream on YouTube",
+            "env_variable": "YOUTUBE_KEY",
+            "default_value": "",
+            "user_viewable": true,
+            "user_editable": true,
+            "rules": "required|string"
+        },
+        {
+            "name": "Background Video",
+            "description": "Background Video",
+            "env_variable": "VIDEO_SOURCE",
+            "default_value": "background.mp4",
+            "user_viewable": true,
+            "user_editable": true,
+            "rules": "required|string"
+        },
+        {
+            "name": "Audio Encoder",
+            "description": "Audio output from ffmpeg",
+            "env_variable": "AUDIO_ENCODER",
+            "default_value": "aac",
+            "user_viewable": true,
+            "user_editable": true,
+            "rules": "required|string|max:20"
+        },
+        {
+            "name": "Audio Files List",
+            "description": "List file where all audio file names are written",
+            "env_variable": "AUDIO_FILES",
+            "default_value": "audiofiles.txt",
+            "user_viewable": true,
+            "user_editable": true,
+            "rules": "required|string"
+        }
+    ]
+}
