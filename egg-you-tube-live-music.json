@@ -4,13 +4,13 @@
         "version": "PTDL_v1",
         "update_url": null
     },
-    "exported_at": "2021-09-18T06:20:17+06:00",
+    "exported_at": "2021-09-21T00:44:12+06:00",
     "name": "YouTube Live Music",
     "author": "shaownsilva@gmail.com",
     "description": "Egg To Live Video 24\/7 Videos on YouTube",
     "features": null,
     "images": [
-        "ghcr.io\/parkervcp\/yolks:nodejs_16"
+        "ghcr.io\/pterodactyl\/yolks:debian"
     ],
     "file_denylist": [],
     "startup": "ffmpeg -stream_loop -1 -re -i \"{{VIDEO_SOURCE}}\" -thread_queue_size 512 -stream_loop -1 -re -f concat -i {{AUDIO_FILES}} -c:v libx264 -preset {{QUAL}} -r {{FPS}} -g 60 -b:v {{VBR}} -bufsize 3000k -maxrate {{VBR}} -c:a {{AUDIO_ENCODER}} -ar 44100 -b:a 128k -pix_fmt yuv420p -f flv {{YOUTUBE_URL}}\/{{YOUTUBE_KEY}}",
